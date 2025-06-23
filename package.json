@@ -1,6 +1,6 @@
 {
   "name": "bidjoy-production",
-  "version": "1.0.338265",
+  "version": "1.0.614865",
   "description": "BidJoy - Sveriges mest avancerade auktionsplattform med Scandinavisk design",
   "main": "neon-production-server.js",
   "scripts": {
