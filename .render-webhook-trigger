@@ -1,0 +1,9 @@
+# Webhook Trigger - 2025-06-23T15:30:24.236Z
+# Detta tvingar Render att deploya från GitHub
+FORCE_DEPLOY=true
+TIMESTAMP=2025-06-23T15:30:24.236Z
+GITHUB_SHA_UPDATE=true
+
+# Render ska nu automatiskt detectera denna ändring
+# och starta en ny deployment från GitHub
+WEBHOOK_ACTIVE=true
