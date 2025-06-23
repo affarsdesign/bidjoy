@@ -1,12 +1,12 @@
-// FORCE_RENDER_DEPLOY_1750687875000
-// CACHE_BUST_17:31_SWEDISH_TIME
+// MANUAL_DEPLOY_TRIGGER_1750692900000
+// RENDER_FORCE_REBUILD_17:35_SWEDISH_TIME
 /**
- * RENDER DEPLOYMENT FORCED: 2025-06-23T17:31:00.000Z
- * Production BidJoy Server with Modern Scandinavian Design
- * Unified server for Render deployment with all dependencies included
- * Features: Modern inbound marketing, Scandinavian theming, Professional lead generation
- * FORCE DEPLOY TIMESTAMP: 2025-06-23 17:31:00 Swedish Time
- * CACHE INVALIDATION: TRUE
+ * MANUAL RENDER DEPLOYMENT: 2025-06-23T17:35:00.000Z
+ * Production BidJoy Server with Modern Scandinavian Design & Inbound Marketing
+ * Updated server forcing Render to rebuild from latest GitHub commits
+ * Features: HubSpot-style lead generation, Professional theming, SMS integration
+ * MANUAL DEPLOY REQUIRED: Click "Manual Deploy" in Render Dashboard
+ * BUILD CACHE CLEARED: 2025-06-23 17:35:00 Swedish Time
  */
 
 const express = require('express');
