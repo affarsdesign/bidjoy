@@ -1,9 +1,10 @@
-// CACHE_BUSTER_1750694908203
-// FORCE_DEPLOY_d6lui7sxeq5
+// CRITICAL_DEPLOY_1750696200000
+// RENDER_SYNC_REQUIRED_NOW
 /**
- * BidJoy Production Server - Cache Busting Deploy 2025-06-23T16:08:28.203Z
- * Forced rebuild to bypass Render caching issues
- * Build: d6lui7sxeq5 | Timestamp: 1750694908203
+ * CRITICAL DEPLOYMENT REQUIRED - 2025-06-23T18:10:00.000Z
+ * BidJoy Emergency Rebuild - Force Render to sync immediately
+ * New timestamp forces complete cache invalidation
+ * Status: WAITING FOR MANUAL RENDER DEPLOYMENT
  */
 
 const express = require('express');
