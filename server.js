@@ -932,8 +932,19 @@ app.post('/api/leads', async (req, res) => {
   }
 });
 
-// Default route - Landing page
+// Default route - Landing page with aggressive cache busting
 app.get('/', (req, res) => {
+  const timestamp = Date.now();
+  res.set({
+    'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+    'Last-Modified': new Date().toUTCString(),
+    'ETag': `W/"${timestamp}.${Math.random()}"`,
+    'X-Cache-Buster': timestamp,
+    'X-Force-Rebuild': 'true',
+    'X-Deploy-Timestamp': new Date().toISOString()
+  });
   res.send(getLandingPageHTML());
 });
 
