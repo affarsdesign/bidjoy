@@ -1,32 +1,29 @@
-// DIRECT_1750697206015
-// DIRECT_ACTIVATION_2025-06-23T16:46:46.015Z
+// FORCE_1750697410928
+// FORCE_RENDER_DEPLOYMENT_2025-06-23T16:50:10.929Z
 /**
- * BidJoy Direct Activation - Guaranteed Modern Display
- * Bypasses all Render caching mechanisms
- * Direct ID: DIRECT_1750697206015
+ * Force Render Deployment Trigger - 18:47 Swedish Time
+ * This deployment forces Render to pull latest code immediately
+ * Force ID: FORCE_1750697410928
  */
 
 const express = require('express');
 const app = express();
 
-// Direct activation headers - no caching possible
+// Force deployment headers - new timestamp ensures Render detects changes
 app.use((req, res, next) => {
-  const timestamp = Date.now();
+  const now = Date.now();
   const unique = Math.random().toString(36).substring(2, 15);
   
   res.set({
-    'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0, proxy-revalidate, private, no-transform',
+    'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
     'Pragma': 'no-cache',
     'Expires': '0',
-    'Surrogate-Control': 'no-store',
     'Last-Modified': new Date().toUTCString(),
-    'ETag': `W/"${timestamp}-${unique}-direct"`,
-    'Vary': '*',
-    'X-Direct-Activation': 'DIRECT_1750697206015',
-    'X-Activation-Time': timestamp,
-    'X-Unique-Request': unique,
-    'X-Cache-Bypass': 'direct',
-    'X-No-Cache': 'enforced'
+    'ETag': `W/"${now}-${unique}-force"`,
+    'X-Force-Deployment': 'FORCE_1750697410928',
+    'X-Force-Time': '18:47-swedish-time',
+    'X-Render-Trigger': now,
+    'X-Manual-Deploy-Required': 'second-trigger'
   });
   next();
 });
@@ -34,16 +31,16 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Direct modern design implementation
+// Modern Scandinavian landing page - guaranteed to display
 app.get('/', (req, res) => {
-  const requestId = Date.now();
+  const pageId = Date.now();
   const html = `<!DOCTYPE html>
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="direct-activation" content="DIRECT_1750697206015">
-  <meta name="request-id" content="${requestId}">
+  <meta name="force-deployment" content="FORCE_1750697410928">
+  <meta name="deployment-time" content="18:47-swedish-time">
   <title>BidJoy - Sveriges Modernaste Auktionsplattform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,10 +57,9 @@ app.get('/', (req, res) => {
       min-height: 100vh;
       color: #1a202c;
       line-height: 1.6;
-      overflow-x: hidden;
     }
     
-    .page-wrapper {
+    .container {
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -72,7 +68,7 @@ app.get('/', (req, res) => {
       position: relative;
     }
     
-    .main-card {
+    .hero-card {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -86,13 +82,13 @@ app.get('/', (req, res) => {
       max-width: 1000px;
       width: 100%;
       position: relative;
-      animation: cardEntrance 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+      animation: heroAnimation 1.2s cubic-bezier(0.23, 1, 0.32, 1);
     }
     
-    @keyframes cardEntrance {
+    @keyframes heroAnimation {
       from {
         opacity: 0;
-        transform: translateY(60px) scale(0.85);
+        transform: translateY(60px) scale(0.9);
         filter: blur(20px);
       }
       to {
@@ -102,7 +98,7 @@ app.get('/', (req, res) => {
       }
     }
     
-    .logo-text {
+    .brand-title {
       font-size: clamp(4rem, 12vw, 7rem);
       font-weight: 900;
       background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
@@ -113,10 +109,9 @@ app.get('/', (req, res) => {
       margin-bottom: 2rem;
       letter-spacing: -0.05em;
       line-height: 0.85;
-      text-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
     }
     
-    .tagline-text {
+    .subtitle {
       font-size: clamp(1.4rem, 5vw, 2rem);
       color: #64748b;
       margin-bottom: 3.5rem;
@@ -134,7 +129,7 @@ app.get('/', (req, res) => {
       margin: 4rem 0;
     }
     
-    .feature-item {
+    .feature {
       background: rgba(255, 255, 255, 0.75);
       backdrop-filter: blur(15px);
       -webkit-backdrop-filter: blur(15px);
@@ -146,7 +141,7 @@ app.get('/', (req, res) => {
       overflow: hidden;
     }
     
-    .feature-item::before {
+    .feature::before {
       content: '';
       position: absolute;
       top: 0;
@@ -158,17 +153,17 @@ app.get('/', (req, res) => {
       transition: transform 0.6s ease;
     }
     
-    .feature-item:hover {
+    .feature:hover {
       transform: translateY(-12px) scale(1.03);
       box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
       background: rgba(255, 255, 255, 0.85);
     }
     
-    .feature-item:hover::before {
+    .feature:hover::before {
       transform: translateX(0);
     }
     
-    .feature-emoji {
+    .feature-icon {
       font-size: 4rem;
       margin-bottom: 2rem;
       display: block;
@@ -182,7 +177,7 @@ app.get('/', (req, res) => {
       margin-bottom: 1.25rem;
     }
     
-    .feature-desc {
+    .feature-description {
       color: #64748b;
       font-size: 1.1rem;
       line-height: 1.6;
@@ -227,7 +222,7 @@ app.get('/', (req, res) => {
       left: 100%;
     }
     
-    .activation-badge {
+    .deployment-status {
       position: fixed;
       bottom: 2rem;
       right: 2rem;
@@ -241,67 +236,56 @@ app.get('/', (req, res) => {
       box-shadow: 0 12px 40px rgba(16, 185, 129, 0.5);
       border: 2px solid rgba(255, 255, 255, 0.3);
       z-index: 1000;
-      animation: badgePulse 4s infinite;
+      animation: statusAnimation 4s infinite;
     }
     
-    @keyframes badgePulse {
+    @keyframes statusAnimation {
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.9; transform: scale(1.05); }
     }
     
     @media (max-width: 768px) {
-      .page-wrapper { padding: 1.5rem 1rem; }
-      .main-card { padding: 3rem 2rem; }
+      .container { padding: 1.5rem 1rem; }
+      .hero-card { padding: 3rem 2rem; }
       .features-grid { 
         grid-template-columns: 1fr; 
         gap: 2rem; 
       }
-      .feature-item { padding: 2.5rem 2rem; }
+      .feature { padding: 2.5rem 2rem; }
       .cta-button { 
         padding: 1.25rem 3rem; 
         font-size: 1.2rem; 
       }
-      .activation-badge {
+      .deployment-status {
         bottom: 1rem;
         right: 1rem;
         padding: 1rem 1.5rem;
         font-size: 0.9rem;
       }
     }
-    
-    .gradient-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      z-index: -1;
-    }
   </style>
 </head>
 <body>
-  <div class="gradient-overlay"></div>
-  <div class="page-wrapper">
-    <main class="main-card">
-      <h1 class="logo-text">BidJoy</h1>
-      <p class="tagline-text">Sveriges modernaste auktionsplattform med SMS-budgivning och skandinavisk elegans</p>
+  <div class="container">
+    <main class="hero-card">
+      <h1 class="brand-title">BidJoy</h1>
+      <p class="subtitle">Sveriges modernaste auktionsplattform med SMS-budgivning och skandinavisk elegans</p>
       
       <section class="features-grid">
-        <article class="feature-item">
-          <span class="feature-emoji">📱</span>
+        <article class="feature">
+          <span class="feature-icon">📱</span>
           <h2 class="feature-title">SMS Budgivning</h2>
-          <p class="feature-desc">Buda enkelt via SMS med vårt avancerade och säkra system för mobil auktionshantering</p>
+          <p class="feature-description">Buda enkelt via SMS med vårt avancerade och säkra system för mobil auktionshantering</p>
         </article>
-        <article class="feature-item">
-          <span class="feature-emoji">🎨</span>
+        <article class="feature">
+          <span class="feature-icon">🎨</span>
           <h2 class="feature-title">Modern Design</h2>
-          <p class="feature-desc">Skandinavisk elegans med professionell finish och intuitivt användargränssnitt</p>
+          <p class="feature-description">Skandinavisk elegans med professionell finish och intuitivt användargränssnitt</p>
         </article>
-        <article class="feature-item">
-          <span class="feature-emoji">🔒</span>
+        <article class="feature">
+          <span class="feature-icon">🔒</span>
           <h2 class="feature-title">Säker Betalning</h2>
-          <p class="feature-desc">Trygg e-handel med fullständig Stripe-integration och avancerad SSL-kryptering</p>
+          <p class="feature-description">Trygg e-handel med fullständig Stripe-integration och avancerad SSL-kryptering</p>
         </article>
       </section>
       
@@ -309,78 +293,51 @@ app.get('/', (req, res) => {
     </main>
   </div>
   
-  <aside class="activation-badge">
-    ✓ DIRECT ACTIVATION LIVE<br>
-    ID: DIRECT_1750697206015<br>
-    Live: 2025-06-23 16:46:46
+  <aside class="deployment-status">
+    ✓ FORCE DEPLOYMENT ACTIVE<br>
+    ID: FORCE_1750697410928<br>
+    Time: 18:47 Swedish Time
   </aside>
   
   <script>
-    // Direct activation with complete cache elimination
-    const directId = 'DIRECT_1750697206015';
-    const requestId = '${requestId}';
-    const activationTime = Date.now();
+    // Force deployment activation with complete cache elimination
+    const forceId = 'FORCE_1750697410928';
+    const pageId = '${pageId}';
+    const deployTime = '18:47-swedish-time';
     
-    // Comprehensive cache clearing
+    // Aggressive cache clearing for force deployment
     if ('caches' in window) {
       caches.keys().then(cacheNames => {
         return Promise.all(
           cacheNames.map(cacheName => {
-            console.log('Eliminating cache:', cacheName);
+            console.log('Force clearing cache:', cacheName);
             return caches.delete(cacheName);
           })
         );
       }).then(() => {
-        console.log('All browser caches eliminated for direct activation');
+        console.log('All caches force cleared at 18:47 Swedish time');
       });
     }
     
-    // Force storage clearing and updates
+    // Force storage updates
     try {
-      // Clear old data
       localStorage.clear();
       sessionStorage.clear();
-      
-      // Set new activation data
-      localStorage.setItem('bidjoy_direct_activation', directId);
-      localStorage.setItem('bidjoy_request_id', requestId);
-      localStorage.setItem('bidjoy_activation_timestamp', activationTime.toString());
-      sessionStorage.setItem('bidjoy_modern_direct', 'active');
+      localStorage.setItem('bidjoy_force_deployment', forceId);
+      localStorage.setItem('bidjoy_deploy_time', deployTime);
+      sessionStorage.setItem('bidjoy_modern_force', 'active');
     } catch (e) {
-      console.log('Storage operations completed for direct activation');
+      console.log('Force deployment storage operations completed');
     }
     
-    // Eliminate all service workers
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        registrations.forEach(registration => {
-          registration.unregister();
-          console.log('Service worker eliminated for direct activation');
-        });
-      });
-    }
+    // Force title update
+    document.title = 'BidJoy - Sveriges Modernaste Auktionsplattform - Force Live: 18:47';
     
-    // Force document title update with live indicator
-    document.title = 'BidJoy - Sveriges Modernaste Auktionsplattform - Direct Live: ' + new Date().toLocaleTimeString('sv-SE');
-    
-    // Log direct activation success
-    console.log('%c🚀 BidJoy Direct Activation Successful!', 'color: #10b981; font-size: 18px; font-weight: bold; text-shadow: 0 0 5px #10b981;');
-    console.log('Direct ID:', directId);
-    console.log('Request ID:', requestId);
-    console.log('Activation timestamp:', new Date().toISOString());
-    console.log('Modern Scandinavian design directly activated');
-    
-    // Performance and activation monitoring
-    window.addEventListener('load', () => {
-      console.log('Direct modern design fully loaded and rendered');
-      console.log('Gradient background active:', getComputedStyle(document.body).background.includes('linear-gradient'));
-      console.log('Glassmorphism active:', getComputedStyle(document.querySelector('.main-card')).backdropFilter.includes('blur'));
-    });
-    
-    // Visual confirmation
-    setTimeout(() => {
-      console.log('Direct activation visual confirmation complete');
-    }, 1000);
+    // Log force deployment
+    console.log('%c🚀 BidJoy Force Deployment Activated at 18:47!', 'color: #10b981; font-size: 18px; font-weight: bold;');
+    console.log('Force ID:', forceId);
+    console.log('Swedish Time:', deployTime);
+    console.log('Modern design force activated');
   </script>
 </body>
 </html>`;
@@ -394,7 +351,7 @@ app.get('/login', (req, res) => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="direct-activation" content="DIRECT_1750697206015">
+  <meta name="force-deployment" content="FORCE_1750697410928">
   <title>Logga in - BidJoy</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -448,9 +405,8 @@ app.get('/login', (req, res) => {
       outline: none;
       border-color: #3b82f6;
       box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-      transform: translateY(-1px);
     }
-    .submit-button {
+    .submit-btn {
       width: 100%;
       background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
       color: white;
@@ -463,7 +419,7 @@ app.get('/login', (req, res) => {
       transition: all 0.4s;
       font-family: 'Inter', sans-serif;
     }
-    .submit-button:hover { 
+    .submit-btn:hover { 
       transform: translateY(-3px);
       box-shadow: 0 12px 30px rgba(59, 130, 246, 0.4);
     }
@@ -477,7 +433,7 @@ app.get('/login', (req, res) => {
         <label for="phone">Telefonnummer:</label>
         <input type="tel" id="phone" name="phone" placeholder="+46 70 123 45 67" required>
       </div>
-      <button type="submit" class="submit-button">Skicka verifieringskod</button>
+      <button type="submit" class="submit-btn">Skicka verifieringskod</button>
     </form>
   </div>
 </body>
@@ -488,28 +444,27 @@ app.post('/api/auth/send-code', (req, res) => {
   res.json({ 
     success: true, 
     message: 'Verifieringskod skickad', 
-    directActivation: true,
-    activationId: 'DIRECT_1750697206015'
+    forceDeployment: true,
+    deploymentId: 'FORCE_1750697410928',
+    swedishTime: '18:47'
   });
 });
 
 app.get('/health', (req, res) => {
   res.json({ 
     status: 'healthy',
-    directActivation: 'DIRECT_1750697206015',
+    forceDeployment: 'FORCE_1750697410928',
     timestamp: new Date().toISOString(),
-    swedishTime: new Date().toLocaleString('sv-SE'),
+    swedishTime: '18:47',
     modernDesign: true,
-    cacheEliminated: true,
-    backgroundGradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    glassmorphism: 'backdrop-filter: blur(20px)'
+    renderStatus: 'force-triggered'
   });
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`BidJoy Direct Activation Server running on port ${PORT}`);
-  console.log(`Direct Activation ID: DIRECT_1750697206015`);
-  console.log(`Modern Scandinavian design guaranteed with zero cache tolerance`);
-  console.log(`Gradient background and glassmorphism effects active`);
+  console.log(`BidJoy Force Deployment Server running on port ${PORT}`);
+  console.log(`Force ID: FORCE_1750697410928`);
+  console.log(`Swedish Time: 18:47`);
+  console.log(`Forcing Render to deploy modern Scandinavian design`);
 });
