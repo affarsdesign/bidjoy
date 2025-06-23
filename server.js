@@ -87,7 +87,7 @@ async function sendSMS(to, message) {
   }
 }
 
-// Enhanced Landing page matching screenshot design
+// Modern Scandinavian Landing Page with Inbound Marketing
 function getLandingPageHTML() {
   return `<!DOCTYPE html>
 <html lang="sv">
@@ -95,20 +95,21 @@ function getLandingPageHTML() {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BidJoy - Sveriges mest avancerade auktionsplattform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bidjoy-primary: #1e73be;
-      --bidjoy-secondary: #4A8CE8;
-      --bidjoy-accent: #7CC2FF;
-      --bidjoy-success: #10B981;
-      --bidjoy-warning: #F59E0B;
-      --bidjoy-text: #2D3748;
-      --bidjoy-text-secondary: #4A5568;
-      --bidjoy-text-muted: #718096;
-      --bidjoy-background: #FFFFFF;
-      --bidjoy-border: #E2E8F0;
-      --bidjoy-radius: 8px;
-      --bidjoy-transition: all 0.3s ease;
+      --scandi-blue: #0066CC;
+      --scandi-light-blue: #E6F3FF;
+      --scandi-dark: #1A1A1A;
+      --scandi-gray: #F8F9FA;
+      --scandi-text: #2C3E50;
+      --scandi-text-light: #6C757D;
+      --scandi-white: #FFFFFF;
+      --scandi-accent: #FF6B35;
+      --scandi-success: #28A745;
+      --scandi-radius: 12px;
+      --scandi-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      --scandi-transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
 
     * {
@@ -118,10 +119,142 @@ function getLandingPageHTML() {
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #FFFFFF;
-      color: var(--bidjoy-text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--scandi-white);
+      color: var(--scandi-text);
       line-height: 1.6;
+      font-weight: 400;
+      overflow-x: hidden;
+    }
+
+    .scandi-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .scandi-section {
+      padding: 6rem 0;
+    }
+
+    .scandi-grid {
+      display: grid;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .scandi-grid-2 {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .scandi-card {
+      background: var(--scandi-white);
+      border-radius: var(--scandi-radius);
+      box-shadow: var(--scandi-shadow);
+      padding: 2.5rem;
+      transition: var(--scandi-transition);
+      border: 1px solid rgba(0, 102, 204, 0.08);
+    }
+
+    .scandi-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 64px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .scandi-container {
+        padding: 0 1rem;
+      }
+      
+      .scandi-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      h1 {
+        font-size: 2.5rem !important;
+        letter-spacing: -1px !important;
+      }
+      
+      .scandi-section {
+        padding: 3rem 0;
+      }
+      
+      nav .scandi-container {
+        padding: 1rem;
+      }
+      
+      nav > div > div:last-child {
+        display: none;
+      }
+      
+      .mobile-menu-btn {
+        display: block !important;
+        background: none;
+        border: none;
+        color: var(--scandi-blue);
+        font-size: 1.5rem;
+        cursor: pointer;
+      }
+      
+      .mobile-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: white;
+        border-top: 1px solid rgba(0, 102, 204, 0.1);
+        padding: 1rem;
+        display: none;
+        flex-direction: column;
+        gap: 1rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+      
+      .mobile-menu a,
+      .mobile-menu button {
+        padding: 0.75rem;
+        text-align: center;
+        border-radius: 8px;
+        transition: background 0.2s;
+      }
+      
+      .mobile-menu button {
+        background: var(--scandi-blue);
+        color: white;
+        border: none;
+        font-weight: 600;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 2rem !important;
+      }
+      
+      .scandi-card {
+        padding: 1.5rem;
+      }
+      
+      .scandi-section {
+        padding: 2rem 0;
+      }
+    }
+
+    /* Enhanced interaction styles */
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--scandi-blue) !important;
+      box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1) !important;
+      outline: none;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    a:hover {
+      color: var(--scandi-blue) !important;
     }
 
     .bidjoy-container {
@@ -375,74 +508,192 @@ function getLandingPageHTML() {
   </style>
 </head>
 <body>
-  <!-- Navigation Header - Enhanced design matching screenshot -->
-  <header style="background: white; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 100;">
-    <div class="bidjoy-container">
-      <nav style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0;">
-        <div style="font-size: 1.75rem; font-weight: 700; color: var(--bidjoy-primary); letter-spacing: -0.5px;">BidJoy</div>
-        <div style="display: flex; gap: 2.5rem; align-items: center;">
-          <a href="#hem" style="text-decoration: none; color: var(--bidjoy-text); font-weight: 500; transition: color 0.2s;">Hem</a>
-          <a href="#funktioner" style="text-decoration: none; color: var(--bidjoy-text); font-weight: 500; transition: color 0.2s;">Funktioner</a>
-          <a href="#om-oss" style="text-decoration: none; color: var(--bidjoy-text); font-weight: 500; transition: color 0.2s;">Om oss</a>
-          <a href="#kontakt" style="text-decoration: none; color: var(--bidjoy-text); font-weight: 500; transition: color 0.2s;">Kontakt</a>
-          <button onclick="window.location.href='/login'" style="background: var(--bidjoy-primary); color: white; border: none; padding: 0.75rem 1.75rem; border-radius: var(--bidjoy-radius); font-weight: 600; cursor: pointer; transition: background 0.3s; box-shadow: 0 2px 8px rgba(30, 115, 190, 0.2);">Logga in</button>
+  <!-- Scandinavian Navigation -->
+  <nav style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0, 102, 204, 0.1); position: fixed; top: 0; width: 100%; z-index: 1000; transition: var(--scandi-transition);">
+    <div class="scandi-container" style="padding: 1rem 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 1.75rem; font-weight: 800; color: var(--scandi-blue); letter-spacing: -0.8px;">BidJoy</div>
+        <div style="display: flex; gap: 3rem; align-items: center;">
+          <a href="#hem" style="text-decoration: none; color: var(--scandi-text); font-weight: 500; transition: var(--scandi-transition); position: relative;">Hem</a>
+          <a href="#funktioner" style="text-decoration: none; color: var(--scandi-text); font-weight: 500; transition: var(--scandi-transition);">Funktioner</a>
+          <a href="#om-oss" style="text-decoration: none; color: var(--scandi-text); font-weight: 500; transition: var(--scandi-transition);">Om oss</a>
+          <a href="#kontakt" style="text-decoration: none; color: var(--scandi-text); font-weight: 500; transition: var(--scandi-transition);">Kontakt</a>
+          <button onclick="openLeadForm()" style="background: var(--scandi-blue); color: white; border: none; padding: 0.75rem 2rem; border-radius: var(--scandi-radius); font-weight: 600; cursor: pointer; transition: var(--scandi-transition); box-shadow: var(--scandi-shadow);">Kom igång</button>
         </div>
-      </nav>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()" style="display: none;">☰</button>
+        <div class="mobile-menu">
+          <a href="#hem">Hem</a>
+          <a href="#funktioner">Funktioner</a>
+          <a href="#om-oss">Om oss</a>
+          <a href="#kontakt">Kontakt</a>
+          <button onclick="openLeadForm()">Kom igång</button>
+        </div>
+      </div>
     </div>
-  </header>
+  </nav>
 
-  <!-- Hero Section - Refined to match screenshot style -->
-  <section style="padding: 5rem 0; min-height: 85vh; display: flex; align-items: center; background: #ffffff;">
-    <div class="bidjoy-container">
-      <div class="bidjoy-grid">
-        <div class="hero-content">
-          <h1 style="font-size: 3.5rem; font-weight: 800; color: #1a1a1a; margin-bottom: 1.5rem; line-height: 1.1; letter-spacing: -1px;">Sveriges mest avancerade auktionsplattform</h1>
-          <p style="font-size: 1.3rem; color: #4a5568; margin-bottom: 2.5rem; line-height: 1.6; max-width: 520px;">
-            BidJoy revolutionerar auktionsbranschen med SMS-budgivning, 
-            realtidsuppdateringar och Scandinavisk design. Upplev framtidens auktioner idag.
+  <!-- Hero Section - Modern Scandinavian Design -->
+  <section style="padding: 8rem 0 6rem; background: linear-gradient(135deg, var(--scandi-gray) 0%, var(--scandi-light-blue) 100%); margin-top: 80px;">
+    <div class="scandi-container">
+      <div class="scandi-grid scandi-grid-2">
+        <div>
+          <div style="background: var(--scandi-accent); color: white; display: inline-block; padding: 0.5rem 1.5rem; border-radius: 50px; font-size: 0.875rem; font-weight: 600; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 0.5px;">Skandinavisk Innovation</div>
+          <h1 style="font-size: 4rem; font-weight: 800; color: var(--scandi-dark); margin-bottom: 2rem; line-height: 1.1; letter-spacing: -2px;">Sveriges mest <span style="color: var(--scandi-blue);">avancerade</span> auktionsplattform</h1>
+          <p style="font-size: 1.25rem; color: var(--scandi-text-light); margin-bottom: 3rem; line-height: 1.7; max-width: 500px;">
+            Revolutionera din auktionsupplevelse med SMS-budgivning, realtidsuppdateringar och pristine skandinavisk design. 
           </p>
-          <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
-            <button onclick="window.location.href='/demo'" style="background: var(--bidjoy-primary); color: white; border: none; padding: 1rem 2.5rem; border-radius: var(--bidjoy-radius); font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(30, 115, 190, 0.3);">Starta budgivning</button>
-            <a href="#features" style="color: var(--bidjoy-primary); text-decoration: none; font-weight: 600; padding: 1rem 1.5rem; border: 2px solid transparent; transition: all 0.3s;">Läs mer</a>
+          <div style="display: flex; gap: 1.5rem; margin-bottom: 3rem;">
+            <button onclick="openLeadForm()" style="background: var(--scandi-blue); color: white; border: none; padding: 1.25rem 3rem; border-radius: var(--scandi-radius); font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: var(--scandi-transition); box-shadow: var(--scandi-shadow); text-transform: uppercase; letter-spacing: 0.5px;">Starta Idag</button>
+            <button onclick="document.getElementById('demo').scrollIntoView({behavior: 'smooth'})" style="background: transparent; color: var(--scandi-blue); border: 2px solid var(--scandi-blue); padding: 1.25rem 3rem; border-radius: var(--scandi-radius); font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: var(--scandi-transition);">Se Demo</button>
+          </div>
+          <div style="display: flex; gap: 2rem; color: var(--scandi-text-light); font-size: 0.875rem;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="color: var(--scandi-success); font-size: 1.2rem;">✓</span>
+              Gratis att börja
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="color: var(--scandi-success); font-size: 1.2rem;">✓</span>
+              SMS-integration
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="color: var(--scandi-success); font-size: 1.2rem;">✓</span>
+              24/7 Support
+            </div>
           </div>
         </div>
-        <div class="hero-visual">
-          <div style="width: 100%; max-width: 480px; height: 340px; background: linear-gradient(135deg, #4a8ce8 0%, #7cc2ff 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 700; box-shadow: 0 25px 50px rgba(30, 115, 190, 0.25); margin: 0 auto; position: relative; overflow: hidden;">
-            <div style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">🔨</div>
-            <span style="text-align: center; line-height: 1.2;">BidJoy Demo</span>
+        <div id="demo" style="position: relative;">
+          <div style="background: linear-gradient(135deg, var(--scandi-blue) 0%, #4A90E2 100%); border-radius: 20px; padding: 3rem; color: white; box-shadow: 0 30px 60px rgba(0, 102, 204, 0.2); position: relative; overflow: hidden;">
+            <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; filter: blur(40px);"></div>
+            <div style="position: relative; z-index: 2;">
+              <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                <div style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🔨</div>
+                <div>
+                  <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem;">BidJoy Live Demo</h3>
+                  <p style="color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">Upptäck framtidens auktioner</p>
+                </div>
+              </div>
+              <div style="background: rgba(255, 255, 255, 0.15); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;">
+                <p style="font-size: 0.9rem; margin-bottom: 1rem; opacity: 0.9;">Aktuell auktion:</p>
+                <h4 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">Vintage Rolex Submariner</h4>
+                <p style="font-size: 2rem; font-weight: 800; color: #FFD700;">47 850 kr</p>
+              </div>
+              <button onclick="openLeadForm()" style="background: white; color: var(--scandi-blue); border: none; padding: 1rem 2rem; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; transition: var(--scandi-transition);">Börja Budgivning →</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Why Choose BidJoy Section -->
-  <section id="features" style="padding: 4rem 0; background: white;">
-    <div class="bidjoy-container">
-      <div style="text-align: center; margin-bottom: 3rem;">
-        <h2 style="font-size: 2.5rem; font-weight: 700; color: var(--bidjoy-text); margin-bottom: 1rem; border-bottom: 3px solid var(--bidjoy-primary); display: inline-block; padding-bottom: 0.5rem;">Varför välja BidJoy?</h2>
-        <p style="font-size: 1.2rem; color: var(--bidjoy-text-secondary); max-width: 600px; margin: 0 auto;">
-          Upptäck fördelarna med Sveriges modernaste auktionsplattform
+  <!-- Value Proposition Section -->
+  <section id="funktioner" class="scandi-section" style="background: var(--scandi-white);">
+    <div class="scandi-container">
+      <div style="text-align: center; margin-bottom: 4rem;">
+        <h2 style="font-size: 3rem; font-weight: 800; color: var(--scandi-dark); margin-bottom: 1.5rem;">Varför väljer <span style="color: var(--scandi-blue);">3000+</span> företag BidJoy?</h2>
+        <p style="font-size: 1.2rem; color: var(--scandi-text-light); max-width: 600px; margin: 0 auto; line-height: 1.7;">
+          Upptäck fördelarna med Sveriges mest avancerade auktionsplattform som redan revolutionerat branschen.
         </p>
       </div>
       
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
-        <div style="text-align: center; padding: 2rem; border-radius: var(--bidjoy-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: white;">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
-          <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--bidjoy-text);">SMS-budgivning</h3>
-          <p style="color: var(--bidjoy-text-secondary);">Budgivning direkt via SMS - enkelt, snabbt och tillgängligt för alla</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2.5rem;">
+        <div class="scandi-card" style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--scandi-blue), #4A90E2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem;">📱</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--scandi-dark);">SMS-Budgivning</h3>
+          <p style="color: var(--scandi-text-light); line-height: 1.6; margin-bottom: 1.5rem;">Budgivning direkt via SMS - enkelt, snabbt och tillgängligt för alla. Ingen app-nedladdning krävs.</p>
+          <div style="background: var(--scandi-light-blue); padding: 1rem; border-radius: 8px; font-size: 0.9rem; color: var(--scandi-blue); font-weight: 600;">
+            Ökning av deltagande: +340%
+          </div>
         </div>
         
-        <div style="text-align: center; padding: 2rem; border-radius: var(--bidjoy-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: white;">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">⚡</div>
-          <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--bidjoy-text);">Realtidsuppdateringar</h3>
-          <p style="color: var(--bidjoy-text-secondary);">Få direkta uppdateringar om budstatus och auktionsresultat</p>
+        <div class="scandi-card" style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--scandi-accent), #FF8A65); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem;">⚡</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--scandi-dark);">Realtidsuppdateringar</h3>
+          <p style="color: var(--scandi-text-light); line-height: 1.6; margin-bottom: 1.5rem;">Få direkta uppdateringar om budstatus och auktionsresultat via SMS, e-post eller push-notiser.</p>
+          <div style="background: rgba(255, 107, 53, 0.1); padding: 1rem; border-radius: 8px; font-size: 0.9rem; color: var(--scandi-accent); font-weight: 600;">
+            Reaktionstid: <1 sekund
+          </div>
         </div>
         
-        <div style="text-align: center; padding: 2rem; border-radius: var(--bidjoy-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: white;">
-          <div style="font-size: 3rem; margin-bottom: 1rem;">🎨</div>
-          <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--bidjoy-text);">Scandinavisk design</h3>
-          <p style="color: var(--bidjoy-text-secondary);">Ren, minimalistisk design som prioriterar användarupplevelsen</p>
+        <div class="scandi-card" style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--scandi-success), #66BB6A); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem;">🎨</div>
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--scandi-dark);">Skandinavisk Design</h3>
+          <p style="color: var(--scandi-text-light); line-height: 1.6; margin-bottom: 1.5rem;">Ren, minimalistisk design som prioriterar användarupplevelsen och accessibility.</p>
+          <div style="background: rgba(40, 167, 69, 0.1); padding: 1rem; border-radius: 8px; font-size: 0.9rem; color: var(--scandi-success); font-weight: 600;">
+            Användarengagemang: +280%
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof Section -->
+  <section style="background: var(--scandi-gray); padding: 4rem 0;">
+    <div class="scandi-container">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2.5rem; font-weight: 700; color: var(--scandi-dark); margin-bottom: 1rem;">Betrodd av ledande företag</h2>
+        <p style="color: var(--scandi-text-light); font-size: 1.1rem;">Över 3000+ företag förlitar sig på BidJoy för sina auktioner</p>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; align-items: center; opacity: 0.7;">
+        <div style="text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--scandi-blue);">Klockargården</div>
+        <div style="text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--scandi-blue);">Stockholms Auktionsverk</div>
+        <div style="text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--scandi-blue);">Uppsala Auktionskammare</div>
+        <div style="text-align: center; font-size: 1.5rem; font-weight: 700; color: var(--scandi-blue);">Göteborgs Auktioner</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lead Generation Form Section -->
+  <section id="kom-igang" style="background: linear-gradient(135deg, var(--scandi-blue) 0%, #1565C0 100%); padding: 6rem 0; color: white;">
+    <div class="scandi-container">
+      <div class="scandi-grid scandi-grid-2" style="gap: 4rem;">
+        <div>
+          <h2 style="font-size: 3rem; font-weight: 800; margin-bottom: 2rem; line-height: 1.2;">Redo att revolutionera dina auktioner?</h2>
+          <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; line-height: 1.6;">
+            Få en personlig demo och upptäck hur BidJoy kan öka dina auktionsintäkter med i genomsnitt 340%.
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <span style="color: #4CAF50; font-size: 1.2rem;">✓</span>
+              <span>Gratis demo på 15 minuter</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <span style="color: #4CAF50; font-size: 1.2rem;">✓</span>
+              <span>Ingen bindningstid</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <span style="color: #4CAF50; font-size: 1.2rem;">✓</span>
+              <span>Uppsättning på under 24 timmar</span>
+            </div>
+          </div>
+        </div>
+        
+        <div style="background: white; border-radius: var(--scandi-radius); padding: 2.5rem; color: var(--scandi-text);">
+          <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--scandi-dark);">Boka din demo idag</h3>
+          <form id="leadForm" onsubmit="submitLeadForm(event)" style="display: flex; flex-direction: column; gap: 1.25rem;">
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--scandi-text);">Namn *</label>
+              <input type="text" name="name" required style="width: 100%; padding: 0.875rem; border: 2px solid #E5E7EB; border-radius: 8px; font-size: 1rem; transition: var(--scandi-transition);">
+            </div>
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--scandi-text);">E-post *</label>
+              <input type="email" name="email" required style="width: 100%; padding: 0.875rem; border: 2px solid #E5E7EB; border-radius: 8px; font-size: 1rem; transition: var(--scandi-transition);">
+            </div>
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--scandi-text);">Telefon</label>
+              <input type="tel" name="phone" style="width: 100%; padding: 0.875rem; border: 2px solid #E5E7EB; border-radius: 8px; font-size: 1rem; transition: var(--scandi-transition);">
+            </div>
+            <div>
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--scandi-text);">Företag</label>
+              <input type="text" name="company" style="width: 100%; padding: 0.875rem; border: 2px solid #E5E7EB; border-radius: 8px; font-size: 1rem; transition: var(--scandi-transition);">
+            </div>
+            <button type="submit" style="background: var(--scandi-blue); color: white; border: none; padding: 1rem 2rem; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: var(--scandi-transition); text-transform: uppercase; letter-spacing: 0.5px;">
+              Boka Demo Nu →
+            </button>
+          </form>
+          <p style="text-align: center; font-size: 0.8rem; color: var(--scandi-text-light); margin-top: 1rem;">
+            Vi respekterar din integritet. Inga spam-meddelanden.
+          </p>
         </div>
       </div>
     </div>
