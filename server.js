@@ -1,12 +1,13 @@
-// MANUAL_DEPLOY_TRIGGER_1750692900000
-// RENDER_FORCE_REBUILD_17:35_SWEDISH_TIME
+// COMPLETE_REBUILD_1750694693779
+// BUILD_ID_2e2468
 /**
- * MANUAL RENDER DEPLOYMENT: 2025-06-23T17:35:00.000Z
- * Production BidJoy Server with Modern Scandinavian Design & Inbound Marketing
- * Updated server forcing Render to rebuild from latest GitHub commits
- * Features: HubSpot-style lead generation, Professional theming, SMS integration
- * MANUAL DEPLOY REQUIRED: Click "Manual Deploy" in Render Dashboard
- * BUILD CACHE CLEARED: 2025-06-23 17:35:00 Swedish Time
+ * FORCED COMPLETE DEPLOYMENT: 2025-06-23T16:04:53.779Z
+ * Production BidJoy Server with Modern Scandinavian Design & HubSpot Integration
+ * Complete rebuild forced to ensure Render pulls latest code
+ * Features: Advanced inbound marketing, Professional lead generation, SMS integration
+ * REBUILD TIMESTAMP: 2025-06-23 16:04:53 Swedish Time
+ * FORCE CACHE CLEAR: TRUE
+ * DEPLOYMENT BUILD: 2e2468
  */
 
 const express = require('express');
@@ -28,6 +29,23 @@ const pool = new Pool({
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// Aggressive cache invalidation for complete rebuild
+app.use((req, res, next) => {
+  const timestamp = 1750694693779;
+  res.set({
+    'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+    'Last-Modified': new Date().toUTCString(),
+    'ETag': `W/"${timestamp}.${Math.random()}"`,
+    'X-Cache-Buster': timestamp,
+    'X-Force-Rebuild': 'complete',
+    'X-Build-ID': '2e2468',
+    'X-Deploy-Timestamp': new Date().toISOString()
+  });
+  next();
+});
+
 
 // SMS Service configuration
 const SMS_USERNAME = process.env.CELLSYNT_USERNAME || 'bidjoy';
