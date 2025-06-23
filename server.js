@@ -1,6 +1,7 @@
 /**
  * Production BidJoy Server with HubSpot Inbound Marketing Lead Generation
  * Unified server for Render deployment with all dependencies included
+ * Features: Personaliserade SMS meddelanden, Lead generation, HubSpot-inspired design
  */
 
 const express = require('express');
