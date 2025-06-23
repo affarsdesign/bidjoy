@@ -1,3 +1,4 @@
+// ENHANCED_DESIGN_1750691320551
 // TEST_1750691009438
 /**
  * // Deployment: 2025-06-23T14:59:39.951Z
@@ -86,7 +87,7 @@ async function sendSMS(to, message) {
   }
 }
 
-// Landing page with HubSpot-inspired design
+// Enhanced Landing page matching screenshot design
 function getLandingPageHTML() {
   return `<!DOCTYPE html>
 <html lang="sv">
@@ -96,17 +97,18 @@ function getLandingPageHTML() {
   <title>BidJoy - Sveriges mest avancerade auktionsplattform</title>
   <style>
     :root {
-      --bidjoy-primary: #0055A5;
-      --bidjoy-secondary: #7CC2FF;
+      --bidjoy-primary: #1e73be;
+      --bidjoy-secondary: #4A8CE8;
+      --bidjoy-accent: #7CC2FF;
       --bidjoy-success: #10B981;
       --bidjoy-warning: #F59E0B;
-      --bidjoy-text: #1A202C;
+      --bidjoy-text: #2D3748;
       --bidjoy-text-secondary: #4A5568;
-      --bidjoy-text-muted: #A0AEC0;
-      --bidjoy-background: #F7FAFC;
+      --bidjoy-text-muted: #718096;
+      --bidjoy-background: #FFFFFF;
       --bidjoy-border: #E2E8F0;
-      --bidjoy-radius: 0.5rem;
-      --bidjoy-transition: all 0.2s ease;
+      --bidjoy-radius: 8px;
+      --bidjoy-transition: all 0.3s ease;
     }
 
     * {
@@ -373,24 +375,74 @@ function getLandingPageHTML() {
   </style>
 </head>
 <body>
-  <section style="padding: 4rem 0; min-height: 80vh; display: flex; align-items: center;">
+  <!-- Navigation Header - Enhanced design matching screenshot -->
+  <header style="background: white; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 100;">
+    <div class="bidjoy-container">
+      <nav style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 0;">
+        <div style="font-size: 1.75rem; font-weight: 700; color: var(--bidjoy-primary); letter-spacing: -0.5px;">BidJoy</div>
+        <div style="display: flex; gap: 2.5rem; align-items: center;">
+          <a href="#hem" style="text-decoration: none; color: var(--bidjoy-text); font-weight: 500; transition: color 0.2s;">Hem</a>
+          <a href="#funktioner" style="text-decoration: none; color: var(--bidjoy-text); font-weight: 500; transition: color 0.2s;">Funktioner</a>
+          <a href="#om-oss" style="text-decoration: none; color: var(--bidjoy-text); font-weight: 500; transition: color 0.2s;">Om oss</a>
+          <a href="#kontakt" style="text-decoration: none; color: var(--bidjoy-text); font-weight: 500; transition: color 0.2s;">Kontakt</a>
+          <button onclick="window.location.href='/login'" style="background: var(--bidjoy-primary); color: white; border: none; padding: 0.75rem 1.75rem; border-radius: var(--bidjoy-radius); font-weight: 600; cursor: pointer; transition: background 0.3s; box-shadow: 0 2px 8px rgba(30, 115, 190, 0.2);">Logga in</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section - Refined to match screenshot style -->
+  <section style="padding: 5rem 0; min-height: 85vh; display: flex; align-items: center; background: #ffffff;">
     <div class="bidjoy-container">
       <div class="bidjoy-grid">
         <div class="hero-content">
-          <h1 class="hero-title">Sveriges mest avancerade auktionsplattform</h1>
-          <p class="hero-description">
-            BidJoy revolutionerar auktionsbranschen med SMS-budgivning, realtidsuppdateringar och Scandinavisk design. 
-            Upplev framtidens auktioner idag.
+          <h1 style="font-size: 3.5rem; font-weight: 800; color: #1a1a1a; margin-bottom: 1.5rem; line-height: 1.1; letter-spacing: -1px;">Sveriges mest avancerade auktionsplattform</h1>
+          <p style="font-size: 1.3rem; color: #4a5568; margin-bottom: 2.5rem; line-height: 1.6; max-width: 520px;">
+            BidJoy revolutionerar auktionsbranschen med SMS-budgivning, 
+            realtidsuppdateringar och Scandinavisk design. Upplev framtidens auktioner idag.
           </p>
-          <div class="hero-actions">
-            <button onclick="openLeadForm()" class="hubspot-cta">Kom igång nu - helt gratis!</button>
-            <a href="#features" class="bidjoy-btn bidjoy-btn-secondary">Läs mer</a>
+          <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+            <button onclick="window.location.href='/demo'" style="background: var(--bidjoy-primary); color: white; border: none; padding: 1rem 2.5rem; border-radius: var(--bidjoy-radius); font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(30, 115, 190, 0.3);">Starta budgivning</button>
+            <a href="#features" style="color: var(--bidjoy-primary); text-decoration: none; font-weight: 600; padding: 1rem 1.5rem; border: 2px solid transparent; transition: all 0.3s;">Läs mer</a>
           </div>
         </div>
         <div class="hero-visual">
-          <div style="width: 400px; height: 300px; background: linear-gradient(45deg, #0055A5, #7CC2FF); border-radius: 1rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: 700;">
-            🔨 BidJoy Demo
+          <div style="width: 100%; max-width: 480px; height: 340px; background: linear-gradient(135deg, #4a8ce8 0%, #7cc2ff 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 700; box-shadow: 0 25px 50px rgba(30, 115, 190, 0.25); margin: 0 auto; position: relative; overflow: hidden;">
+            <div style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">🔨</div>
+            <span style="text-align: center; line-height: 1.2;">BidJoy Demo</span>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose BidJoy Section -->
+  <section id="features" style="padding: 4rem 0; background: white;">
+    <div class="bidjoy-container">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <h2 style="font-size: 2.5rem; font-weight: 700; color: var(--bidjoy-text); margin-bottom: 1rem; border-bottom: 3px solid var(--bidjoy-primary); display: inline-block; padding-bottom: 0.5rem;">Varför välja BidJoy?</h2>
+        <p style="font-size: 1.2rem; color: var(--bidjoy-text-secondary); max-width: 600px; margin: 0 auto;">
+          Upptäck fördelarna med Sveriges modernaste auktionsplattform
+        </p>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
+        <div style="text-align: center; padding: 2rem; border-radius: var(--bidjoy-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: white;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">📱</div>
+          <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--bidjoy-text);">SMS-budgivning</h3>
+          <p style="color: var(--bidjoy-text-secondary);">Budgivning direkt via SMS - enkelt, snabbt och tillgängligt för alla</p>
+        </div>
+        
+        <div style="text-align: center; padding: 2rem; border-radius: var(--bidjoy-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: white;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">⚡</div>
+          <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--bidjoy-text);">Realtidsuppdateringar</h3>
+          <p style="color: var(--bidjoy-text-secondary);">Få direkta uppdateringar om budstatus och auktionsresultat</p>
+        </div>
+        
+        <div style="text-align: center; padding: 2rem; border-radius: var(--bidjoy-radius); box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: white;">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">🎨</div>
+          <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--bidjoy-text);">Scandinavisk design</h3>
+          <p style="color: var(--bidjoy-text-secondary);">Ren, minimalistisk design som prioriterar användarupplevelsen</p>
         </div>
       </div>
     </div>
