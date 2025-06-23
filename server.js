@@ -1,11 +1,12 @@
-// ENHANCED_DESIGN_1750691320551
-// TEST_1750691009438
+// FORCE_RENDER_DEPLOY_1750687875000
+// CACHE_BUST_17:31_SWEDISH_TIME
 /**
- * // Deployment: 2025-06-23T14:59:39.951Z
- * Production BidJoy Server with HubSpot Inbound Marketing Lead Generation
+ * RENDER DEPLOYMENT FORCED: 2025-06-23T17:31:00.000Z
+ * Production BidJoy Server with Modern Scandinavian Design
  * Unified server for Render deployment with all dependencies included
- * Features: Personaliserade SMS meddelanden, Lead generation, HubSpot-inspired design
- * Manual Deploy Trigger: 2025-06-23 14:51:30
+ * Features: Modern inbound marketing, Scandinavian theming, Professional lead generation
+ * FORCE DEPLOY TIMESTAMP: 2025-06-23 17:31:00 Swedish Time
+ * CACHE INVALIDATION: TRUE
  */
 
 const express = require('express');
