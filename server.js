@@ -1,13 +1,12 @@
-// COMPLETE_REBUILD_1750694693779
-// BUILD_ID_2e2468
+// EMERGENCY_REBUILD_1750695800000
+// RENDER_FORCE_SYNC_NOW
 /**
- * FORCED COMPLETE DEPLOYMENT: 2025-06-23T16:04:53.779Z
- * Production BidJoy Server with Modern Scandinavian Design & HubSpot Integration
- * Complete rebuild forced to ensure Render pulls latest code
- * Features: Advanced inbound marketing, Professional lead generation, SMS integration
- * REBUILD TIMESTAMP: 2025-06-23 16:04:53 Swedish Time
- * FORCE CACHE CLEAR: TRUE
- * DEPLOYMENT BUILD: 2e2468
+ * EMERGENCY DEPLOYMENT: 2025-06-23T18:16:40.000Z
+ * BidJoy Modern Design Emergency Deployment
+ * This deployment forces Render to sync with GitHub immediately
+ * CRITICAL: Cache must be cleared and new content served
+ * EMERGENCY BUILD: 2025-06-23 18:16:40 Swedish Time
+ * STATUS: CRITICAL DEPLOYMENT REQUIRED
  */
 
 const express = require('express');
