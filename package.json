@@ -8,6 +8,7 @@
     "dev": "node neon-production-server.js"
   },
   "dependencies": {
+    "@octokit/rest": "^22.0.0",
     "@stripe/stripe-js": "^7.3.1",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
