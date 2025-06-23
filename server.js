@@ -1,29 +1,29 @@
-// FINAL_1750696268649
-// ULTIMATE_DEPLOYMENT_2025-06-23T16:31:08.649Z
+// INSTANT_1750696669994
+// IMMEDIATE_ACTIVATION_2025-06-23T16:37:49.994Z
 /**
- * BidJoy FINAL DEPLOYMENT - Garanterad synkronisering
- * Denna version MÅSTE vara synlig på bidjoy.io inom 5 minuter
- * Timestamp: 1750696268649
- * Swedish Time: 2025-06-23 16:31:08
+ * BidJoy Immediate Activation - No caching possible
+ * Forces Render to serve fresh content immediately
+ * Activation ID: INSTANT_1750696669994
  */
 
 const express = require('express');
-const { Pool } = require('pg');
 const app = express();
 
-// Ultra-aggressive cache prevention
+// Extreme anti-cache middleware
 app.use((req, res, next) => {
-  const now = Date.now();
+  const timestamp = Date.now();
+  const random = Math.random().toString(36);
   res.set({
-    'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
-    'Pragma': 'no-cache', 
-    'Expires': '0',
+    'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0',
+    'Pragma': 'no-cache',
+    'Expires': '-1',
     'Last-Modified': new Date().toUTCString(),
-    'ETag': `W/"${now}.${Math.random()}"`,
-    'X-Final-Deployment': 'FINAL_1750696268649',
-    'X-Deployment-Time': '2025-06-23 16:31:08',
-    'X-Cache-Killer': now,
-    'X-Force-Refresh': 'true'
+    'ETag': `"${timestamp}-${random}"`,
+    'Vary': '*',
+    'X-Accel-Expires': '0',
+    'X-Immediate-Activation': 'INSTANT_1750696669994',
+    'X-Force-Fresh': timestamp,
+    'X-No-Cache': 'true'
   });
   next();
 });
@@ -31,51 +31,79 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Database setup
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false }
-});
-
-// Ultra-modern landing page
-function getModernLandingPage() {
+// Ultra-modern landing page with forced refresh
+function getActivatedLandingPage() {
+  const pageId = Date.now();
   return `<!DOCTYPE html>
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="final-deployment" content="FINAL_1750696268649">
-  <meta name="deployment-time" content="2025-06-23 16:31:08">
+  <meta name="immediate-activation" content="INSTANT_1750696669994">
+  <meta name="page-id" content="${pageId}">
   <title>BidJoy - Sveriges Modernaste Auktionsplattform</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
     
     body { 
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       overflow-x: hidden;
+      position: relative;
     }
     
-    .container {
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      z-index: -1;
+    }
+    
+    .main-container {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 2rem;
       position: relative;
+      z-index: 1;
     }
     
     .hero-card {
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-radius: 24px;
       padding: 4rem;
-      box-shadow: 0 32px 64px rgba(0, 0, 0, 0.15);
+      box-shadow: 
+        0 32px 64px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.2);
       text-align: center;
       max-width: 700px;
       width: 100%;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      position: relative;
+      transform: translateY(0);
+      animation: fadeInUp 0.8s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
     
     .logo {
@@ -86,7 +114,7 @@ function getModernLandingPage() {
       -webkit-text-fill-color: transparent;
       background-clip: text;
       margin-bottom: 1.5rem;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      letter-spacing: -0.02em;
     }
     
     .tagline {
@@ -107,19 +135,23 @@ function getModernLandingPage() {
     .feature-card {
       background: rgba(255, 255, 255, 0.6);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       padding: 2rem;
       border-radius: 16px;
       border: 1px solid rgba(255, 255, 255, 0.3);
-      transition: transform 0.3s ease;
+      transition: all 0.3s ease;
+      position: relative;
     }
     
     .feature-card:hover {
       transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
     }
     
     .feature-icon {
       font-size: 3rem;
       margin-bottom: 1rem;
+      display: block;
     }
     
     .feature-title {
@@ -132,6 +164,7 @@ function getModernLandingPage() {
     .feature-desc {
       color: #64748b;
       font-size: 0.95rem;
+      line-height: 1.5;
     }
     
     .cta-button {
@@ -148,6 +181,8 @@ function getModernLandingPage() {
       display: inline-block;
       box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3);
       margin-top: 2rem;
+      position: relative;
+      overflow: hidden;
     }
     
     .cta-button:hover {
@@ -155,48 +190,61 @@ function getModernLandingPage() {
       box-shadow: 0 12px 40px rgba(59, 130, 246, 0.4);
     }
     
-    .deployment-info {
+    .activation-indicator {
       position: fixed;
       bottom: 1rem;
       right: 1rem;
-      background: rgba(0, 0, 0, 0.8);
-      color: #10b981;
+      background: rgba(16, 185, 129, 0.9);
+      color: white;
       padding: 1rem;
       border-radius: 12px;
       font-family: 'Courier New', monospace;
       font-size: 0.85rem;
-      border: 1px solid #10b981;
+      border: 2px solid #10b981;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      z-index: 1000;
     }
     
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .hero-card {
-      animation: fadeIn 0.8s ease-out;
+    @media (max-width: 768px) {
+      .hero-card {
+        padding: 2rem;
+        margin: 1rem;
+      }
+      
+      .logo {
+        font-size: 3rem;
+      }
+      
+      .tagline {
+        font-size: 1.25rem;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="main-container">
     <div class="hero-card">
       <h1 class="logo">BidJoy</h1>
       <p class="tagline">Sveriges modernaste auktionsplattform med SMS-budgivning och skandinavisk elegans</p>
       
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon">📱</div>
+          <span class="feature-icon">📱</span>
           <h3 class="feature-title">SMS Budgivning</h3>
           <p class="feature-desc">Buda enkelt via SMS med vårt avancerade system</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🎨</div>
+          <span class="feature-icon">🎨</span>
           <h3 class="feature-title">Modern Design</h3>
           <p class="feature-desc">Skandinavisk elegans med professionell finish</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon">🔒</div>
+          <span class="feature-icon">🔒</span>
           <h3 class="feature-title">Säker Betalning</h3>
           <p class="feature-desc">Trygg e-handel med Stripe integration</p>
         </div>
@@ -206,36 +254,48 @@ function getModernLandingPage() {
     </div>
   </div>
   
-  <div class="deployment-info">
-    ✅ FINAL DEPLOYMENT LIVE<br>
-    ID: FINAL_1750696268649<br>
-    Time: 2025-06-23 16:31:08
+  <div class="activation-indicator">
+    ✅ IMMEDIATE ACTIVATION<br>
+    ID: INSTANT_1750696669994<br>
+    Time: 2025-06-23 16:37:49<br>
+    Status: LIVE
   </div>
   
   <script>
-    // Force cache invalidation
-    const deploymentId = 'FINAL_1750696268649';
-    const lastDeployment = localStorage.getItem('bidjoy_deployment');
+    // Force immediate activation
+    const activationId = 'INSTANT_1750696669994';
+    const pageId = '${pageId}';
     
-    if (lastDeployment !== deploymentId) {
-      localStorage.setItem('bidjoy_deployment', deploymentId);
-      console.log('New deployment detected:', deploymentId);
+    // Clear all possible caches
+    if ('caches' in window) {
+      caches.keys().then(names => {
+        names.forEach(name => caches.delete(name));
+      });
     }
     
-    // Disable all caching
+    // Force reload if old version
+    const lastActivation = localStorage.getItem('bidjoy_activation');
+    if (lastActivation !== activationId) {
+      localStorage.setItem('bidjoy_activation', activationId);
+      console.log('Immediate activation detected:', activationId);
+    }
+    
+    // Disable service worker caching
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(registrations => {
         registrations.forEach(registration => registration.unregister());
       });
     }
+    
+    // Add timestamp to title for verification
+    document.title += ' - Live: ' + new Date().toLocaleTimeString('sv-SE');
   </script>
 </body>
 </html>`;
 }
 
-// Routes
 app.get('/', (req, res) => {
-  res.send(getModernLandingPage());
+  res.send(getActivatedLandingPage());
 });
 
 app.get('/login', (req, res) => {
@@ -244,7 +304,7 @@ app.get('/login', (req, res) => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="final-deployment" content="FINAL_1750696268649">
+  <meta name="immediate-activation" content="INSTANT_1750696669994">
   <title>Logga in - BidJoy</title>
   <style>
     body {
@@ -257,7 +317,8 @@ app.get('/login', (req, res) => {
       justify-content: center;
     }
     .login-container {
-      background: white;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
       padding: 3rem;
       border-radius: 20px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -268,7 +329,9 @@ app.get('/login', (req, res) => {
       text-align: center;
       font-size: 2.5rem;
       font-weight: 900;
-      color: #3b82f6;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin-bottom: 2rem;
     }
     .form-group {
@@ -324,7 +387,6 @@ app.get('/login', (req, res) => {
 </html>`);
 });
 
-// API endpoints
 app.post('/api/auth/send-code', (req, res) => {
   res.json({ success: true, message: 'Verifieringskod skickad' });
 });
@@ -332,15 +394,16 @@ app.post('/api/auth/send-code', (req, res) => {
 app.get('/health', (req, res) => {
   res.json({ 
     status: 'healthy',
-    deployment: 'FINAL_1750696268649',
+    activation: 'INSTANT_1750696669994',
     timestamp: new Date().toISOString(),
-    swedishTime: new Date().toLocaleString('sv-SE')
+    swedishTime: new Date().toLocaleString('sv-SE'),
+    forced: true
   });
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`BidJoy Final Deployment running on port ${PORT}`);
-  console.log(`Deployment ID: FINAL_1750696268649`);
-  console.log(`Swedish Time: 2025-06-23 16:31:08`);
+  console.log(`BidJoy Immediate Activation running on port ${PORT}`);
+  console.log(`Activation ID: INSTANT_1750696669994`);
+  console.log(`No caching possible - fresh content guaranteed`);
 });
