@@ -1912,18 +1912,58 @@ app.get('/auth/me', novaAuth.requireAuth(), async (req, res) => {
   }
 });
 
-// Page routes with themed responses
+// Page routes with hostname-based routing
 app.get('/', (req, res) => {
-  res.send(getLandingPageHTML());
+  const hostname = req.hostname || req.headers.host || '';
+  
+  if (hostname.includes('app.bidjoy.io')) {
+    // Admin login interface for app subdomain
+    res.send(getLoginPageHTML());
+  } else {
+    // Public landing page for main domain
+    res.send(getLandingPageHTML());
+  }
 });
 
 app.get('/login', (req, res) => {
   res.send(getLoginPageHTML());
 });
 
-app.get('/admin', novaAuth.requireAuth(['superadmin', 'admin']), async (req, res) => {
-  const user = await pool.query('SELECT * FROM users WHERE id = $1', [req.user.id]);
-  res.send(getAdminDashboardHTML(user.rows[0]));
+app.get('/admin', async (req, res) => {
+  const hostname = req.hostname || req.headers.host || '';
+  
+  // For app.bidjoy.io, allow admin access with authentication check
+  if (hostname.includes('app.bidjoy.io')) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      // Redirect to login if not authenticated
+      return res.redirect('/');
+    }
+    
+    try {
+      const token = authHeader.substring(7);
+      const decoded = novaAuth.verifyToken(token);
+      
+      if (!decoded || !['superadmin', 'admin'].includes(decoded.userType)) {
+        return res.redirect('/');
+      }
+      
+      const user = await pool.query('SELECT * FROM users WHERE id = $1', [decoded.id]);
+      if (user.rows.length === 0) {
+        return res.redirect('/');
+      }
+      
+      res.send(getAdminDashboardHTML(user.rows[0]));
+    } catch (error) {
+      return res.redirect('/');
+    }
+  } else {
+    // For main domain, require full authentication
+    return novaAuth.requireAuth(['superadmin', 'admin'])(req, res, async () => {
+      const user = await pool.query('SELECT * FROM users WHERE id = $1', [req.user.id]);
+      res.send(getAdminDashboardHTML(user.rows[0]));
+    });
+  }
 });
 
 app.get('/dashboard', novaAuth.requireAuth(['bidder']), async (req, res) => {
