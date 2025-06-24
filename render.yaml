@@ -1,0 +1,77 @@
+services:
+  # Main Application Service
+  - type: web
+    name: bidjoy-main
+    env: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: node render-server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false
+      - key: CELLSYNT_USERNAME
+        sync: false
+      - key: CELLSYNT_PASSWORD
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+    domains:
+      - bidjoy.io
+      - www.bidjoy.io
+      - app.bidjoy.io
+    
+  # Admin Service
+  - type: web
+    name: bidjoy-admin
+    env: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: node admin-service.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+    domains:
+      - admin.bidjoy.io
+    
+  # API Service
+  - type: web
+    name: bidjoy-api
+    env: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: node api-service.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false
+      - key: CELLSYNT_USERNAME
+        sync: false
+      - key: CELLSYNT_PASSWORD
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+    domains:
+      - api.bidjoy.io
