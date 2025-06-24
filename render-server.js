@@ -1331,6 +1331,7 @@ function getAdminDashboardHTML(user) {
         <li><a onclick="showSection('users')">👥 Användare</a></li>
         <li><a onclick="showSection('sms')">📱 SMS</a></li>
         <li><a onclick="showSection('analytics')">📈 Analytics</a></li>
+        <li><a onclick="showSection('cms')">🌐 Nova CMS</a></li>
         <li><a onclick="showSection('settings')">⚙️ Inställningar</a></li>
       </ul>
       
@@ -1481,6 +1482,69 @@ function getAdminDashboardHTML(user) {
           <div class="bidjoy-card">
             <h3 style="margin: 0 0 1.5rem 0;">Analytics</h3>
             <p>Detaljerad statistik över auktioner, användare och intäkter.</p>
+          </div>
+        </div>
+        
+        <!-- Nova CMS Section -->
+        <div id="cms-section" style="display: none;">
+          <div class="bidjoy-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+              <h3 style="margin: 0;">Nova CMS - Startsidehantering</h3>
+              <button onclick="previewLanding()" class="bidjoy-btn bidjoy-btn-secondary">Förhandsgranska</button>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+              <div>
+                <h4 style="margin: 0 0 1rem 0;">Hero-sektion</h4>
+                <div class="form-group">
+                  <label>Huvudrubrik</label>
+                  <input type="text" id="cms-hero-title" class="bidjoy-input" value="Sveriges Modernaste Auktionsplattform" style="width: 100%;">
+                </div>
+                <div class="form-group">
+                  <label>Underrubrik</label>
+                  <textarea id="cms-hero-subtitle" class="bidjoy-input" style="width: 100%; height: 80px;">Auktioner med hjärta och historia för kyrkor, föreningar och organisationer</textarea>
+                </div>
+                <div class="form-group">
+                  <label>CTA-knapp text</label>
+                  <input type="text" id="cms-cta-text" class="bidjoy-input" value="Starta er auktion idag" style="width: 100%;">
+                </div>
+              </div>
+              
+              <div>
+                <h4 style="margin: 0 0 1rem 0;">Features</h4>
+                <div class="form-group">
+                  <label>Feature 1</label>
+                  <input type="text" id="cms-feature1" class="bidjoy-input" value="SMS-baserad budgivning" style="width: 100%;">
+                </div>
+                <div class="form-group">
+                  <label>Feature 2</label>
+                  <input type="text" id="cms-feature2" class="bidjoy-input" value="Realtidsauktioner" style="width: 100%;">
+                </div>
+                <div class="form-group">
+                  <label>Feature 3</label>
+                  <input type="text" id="cms-feature3" class="bidjoy-input" value="Komplett administration" style="width: 100%;">
+                </div>
+              </div>
+            </div>
+            
+            <div style="margin-top: 2rem;">
+              <h4 style="margin: 0 0 1rem 0;">Inbound Marketing</h4>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="stat-card">
+                  <div class="stat-value" id="cms-leads-count">-</div>
+                  <div class="stat-label">Leads denna månad</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-value" id="cms-conversion-rate">-</div>
+                  <div class="stat-label">Konverteringsgrad</div>
+                </div>
+              </div>
+            </div>
+            
+            <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+              <button onclick="saveCMSContent()" class="bidjoy-btn bidjoy-btn-primary">Spara ändringar</button>
+              <button onclick="resetCMSContent()" class="bidjoy-btn bidjoy-btn-secondary">Återställ</button>
+            </div>
           </div>
         </div>
         
@@ -2016,6 +2080,65 @@ app.get('/api/leads', novaAuth.requireAuth(['superadmin']), async (req, res) => 
   } catch (error) {
     console.error('Get leads error:', error);
     res.status(500).json({ error: 'Kunde inte hämta leads' });
+  }
+});
+
+// Nova CMS Content Management
+app.post('/api/cms/content', novaAuth.requireAuth(['superadmin']), async (req, res) => {
+  try {
+    const { heroTitle, heroSubtitle, ctaText, feature1, feature2, feature3 } = req.body;
+    
+    // Store CMS content in database
+    await pool.query(`
+      INSERT INTO cms_content (hero_title, hero_subtitle, cta_text, feature1, feature2, feature3, updated_by, updated_at)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, NOW())
+      ON CONFLICT (id) DO UPDATE SET
+        hero_title = $1,
+        hero_subtitle = $2, 
+        cta_text = $3,
+        feature1 = $4,
+        feature2 = $5,
+        feature3 = $6,
+        updated_by = $7,
+        updated_at = NOW()
+    `, [heroTitle, heroSubtitle, ctaText, feature1, feature2, feature3, req.user.id]);
+    
+    res.json({ success: true, message: 'CMS content updated successfully' });
+  } catch (error) {
+    console.error('CMS content update error:', error);
+    res.status(500).json({ error: 'Kunde inte uppdatera innehåll' });
+  }
+});
+
+// Get CMS Stats
+app.get('/api/cms/stats', novaAuth.requireAuth(['superadmin']), async (req, res) => {
+  try {
+    const thisMonth = new Date();
+    thisMonth.setDate(1);
+    
+    const leadsResult = await pool.query(
+      'SELECT COUNT(*) as count FROM leads WHERE created_at >= $1',
+      [thisMonth]
+    );
+    
+    const totalLeads = await pool.query('SELECT COUNT(*) as count FROM leads');
+    const convertedLeads = await pool.query(
+      'SELECT COUNT(*) as count FROM leads WHERE status = $1',
+      ['converted']
+    );
+    
+    const conversionRate = totalLeads.rows[0].count > 0 
+      ? Math.round((convertedLeads.rows[0].count / totalLeads.rows[0].count) * 100)
+      : 0;
+    
+    res.json({
+      success: true,
+      leadsThisMonth: parseInt(leadsResult.rows[0].count),
+      conversionRate
+    });
+  } catch (error) {
+    console.error('CMS stats error:', error);
+    res.status(500).json({ error: 'Kunde inte hämta statistik' });
   }
 });
 
