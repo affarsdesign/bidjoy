@@ -2203,7 +2203,7 @@ app.post('/api/admin/impersonate', novaAuth.requireAuth(['superadmin']), async (
     res.json({
       success: true,
       token: impersonationToken,
-      message: \`Nu impersonerar du \${targetPhone}\`
+      message: `Nu impersonerar du ${targetPhone}`
     });
   } catch (error) {
     console.error('Impersonation error:', error);
