@@ -1326,12 +1326,12 @@ function getAdminDashboardHTML(user) {
       </div>
       
       <ul class="sidebar-nav">
-        <li><a href="/admin" class="active">📊 Översikt</a></li>
-        <li><a href="/admin/auctions">🔨 Auktioner</a></li>
-        <li><a href="/admin/users">👥 Användare</a></li>
-        <li><a href="/admin/sms">📱 SMS</a></li>
-        <li><a href="/admin/analytics">📈 Analytics</a></li>
-        <li><a href="/admin/settings">⚙️ Inställningar</a></li>
+        <li><a onclick="showSection('overview')" class="active">📊 Översikt</a></li>
+        <li><a onclick="showSection('auctions')">🔨 Auktioner</a></li>
+        <li><a onclick="showSection('users')">👥 Användare</a></li>
+        <li><a onclick="showSection('sms')">📱 SMS</a></li>
+        <li><a onclick="showSection('analytics')">📈 Analytics</a></li>
+        <li><a onclick="showSection('settings')">⚙️ Inställningar</a></li>
       </ul>
       
       <div style="margin-top: auto; padding-top: 2rem; border-top: 1px solid var(--bidjoy-border);">
@@ -1349,12 +1349,14 @@ function getAdminDashboardHTML(user) {
       <header class="admin-header">
         <h1 style="margin: 0;">Dashboard</h1>
         <div style="display: flex; gap: 1rem;">
-          <button class="bidjoy-btn bidjoy-btn-primary">Ny auktion</button>
-          <button class="bidjoy-btn bidjoy-btn-secondary">Exportera</button>
+          <button onclick="createAuction()" class="bidjoy-btn bidjoy-btn-primary">Ny auktion</button>
+          <button onclick="exportData()" class="bidjoy-btn bidjoy-btn-secondary">Exportera</button>
         </div>
       </header>
       
       <div class="admin-content">
+        <!-- Overview Section -->
+        <div id="overview-section">
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-value">156</div>
@@ -1446,6 +1448,48 @@ function getAdminDashboardHTML(user) {
             </div>
           </div>
           ` : ''}
+        </div>
+        </div>
+        
+        <!-- Auctions Section -->
+        <div id="auctions-section" style="display: none;">
+          <div class="bidjoy-card">
+            <h3 style="margin: 0 0 1.5rem 0;">Auktionshantering</h3>
+            <p>Hantera alla auktioner, skapa nya och övervaka pågående budgivning.</p>
+            <button onclick="createAuction()" class="bidjoy-btn bidjoy-btn-primary" style="margin-top: 1rem;">Skapa ny auktion</button>
+          </div>
+        </div>
+        
+        <!-- Users Section -->
+        <div id="users-section" style="display: none;">
+          <div class="bidjoy-card">
+            <h3 style="margin: 0 0 1.5rem 0;">Användarhantering</h3>
+            <p>Administrera registrerade användare och deras behörigheter.</p>
+          </div>
+        </div>
+        
+        <!-- SMS Section -->
+        <div id="sms-section" style="display: none;">
+          <div class="bidjoy-card">
+            <h3 style="margin: 0 0 1.5rem 0;">SMS-hantering</h3>
+            <p>Övervaka SMS-leveranser och hantera verifieringskoder.</p>
+          </div>
+        </div>
+        
+        <!-- Analytics Section -->
+        <div id="analytics-section" style="display: none;">
+          <div class="bidjoy-card">
+            <h3 style="margin: 0 0 1.5rem 0;">Analytics</h3>
+            <p>Detaljerad statistik över auktioner, användare och intäkter.</p>
+          </div>
+        </div>
+        
+        <!-- Settings Section -->
+        <div id="settings-section" style="display: none;">
+          <div class="bidjoy-card">
+            <h3 style="margin: 0 0 1.5rem 0;">Inställningar</h3>
+            <p>Systemkonfiguration och plattformsinställningar.</p>
+          </div>
         </div>
       </div>
     </main>
