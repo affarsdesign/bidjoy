@@ -1736,6 +1736,100 @@ function getBetaEnvironmentHTML() {
   `;
 }
 
+function getAdminPageWithAuthCheck() {
+  return `
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - BidJoy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .loading {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 3rem;
+      border-radius: 20px;
+      text-align: center;
+      color: #64748b;
+    }
+  </style>
+</head>
+<body>
+  <div class="loading">
+    <h2>Laddar admin-panel...</h2>
+    <p>Verifierar behörighet...</p>
+  </div>
+
+  <script>
+    async function loadAdminDashboard() {
+      const token = localStorage.getItem('bidjoy_token');
+      
+      if (!token) {
+        window.location.href = '/';
+        return;
+      }
+      
+      try {
+        // Verify token and get user data
+        const response = await fetch('/auth/me', {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+        
+        if (!response.ok) {
+          localStorage.removeItem('bidjoy_token');
+          window.location.href = '/';
+          return;
+        }
+        
+        const data = await response.json();
+        const user = data.user;
+        
+        if (!['superadmin', 'admin'].includes(user.userType)) {
+          window.location.href = '/dashboard';
+          return;
+        }
+        
+        // Load admin dashboard content
+        const adminResponse = await fetch('/api/admin/dashboard', {
+          headers: {
+            'Authorization': 'Bearer ' + token
+          }
+        });
+        
+        if (adminResponse.ok) {
+          const adminHtml = await adminResponse.text();
+          document.body.innerHTML = adminHtml;
+        } else {
+          throw new Error('Failed to load admin dashboard');
+        }
+        
+      } catch (error) {
+        console.error('Admin auth error:', error);
+        localStorage.removeItem('bidjoy_token');
+        window.location.href = '/';
+      }
+    }
+    
+    loadAdminDashboard();
+  </script>
+</body>
+</html>
+  `;
+}
+
 // Initialize database tables
 async function initDatabase() {
   try {
@@ -2069,31 +2163,9 @@ app.get('/login', (req, res) => {
 app.get('/admin', async (req, res) => {
   const hostname = req.hostname || req.headers.host || '';
   
-  // For app.bidjoy.io, allow admin access with authentication check
+  // For app.bidjoy.io, create admin page with token check in frontend
   if (hostname.includes('app.bidjoy.io')) {
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      // Redirect to login if not authenticated
-      return res.redirect('/');
-    }
-    
-    try {
-      const token = authHeader.substring(7);
-      const decoded = novaAuth.verifyToken(token);
-      
-      if (!decoded || !['superadmin', 'admin'].includes(decoded.userType)) {
-        return res.redirect('/');
-      }
-      
-      const user = await pool.query('SELECT * FROM users WHERE id = $1', [decoded.id]);
-      if (user.rows.length === 0) {
-        return res.redirect('/');
-      }
-      
-      res.send(getAdminDashboardHTML(user.rows[0]));
-    } catch (error) {
-      return res.redirect('/');
-    }
+    res.send(getAdminPageWithAuthCheck());
   } else {
     // For main domain, require full authentication
     return novaAuth.requireAuth(['superadmin', 'admin'])(req, res, async () => {
@@ -2106,6 +2178,20 @@ app.get('/admin', async (req, res) => {
 app.get('/dashboard', novaAuth.requireAuth(['bidder']), async (req, res) => {
   const user = await pool.query('SELECT * FROM users WHERE id = $1', [req.user.id]);
   res.send(getDashboardHTML(user.rows[0]));
+});
+
+// Admin dashboard API endpoint
+app.get('/api/admin/dashboard', novaAuth.requireAuth(['superadmin', 'admin']), async (req, res) => {
+  try {
+    const user = await pool.query('SELECT * FROM users WHERE id = $1', [req.user.id]);
+    if (user.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.send(getAdminDashboardHTML(user.rows[0]));
+  } catch (error) {
+    console.error('Admin dashboard error:', error);
+    res.status(500).json({ error: 'Failed to load admin dashboard' });
+  }
 });
 
 // Leads API for CRM
