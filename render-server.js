@@ -1602,6 +1602,140 @@ function getDashboardHTML(user) {
   `;
 }
 
+function getBetaEnvironmentHTML() {
+  return `
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BidJoy Beta - Staging Environment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .beta-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+    }
+    .beta-badge {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      display: inline-block;
+    }
+    .beta-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+    .beta-description {
+      color: #64748b;
+      font-size: 1.125rem;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    .feature-list {
+      text-align: left;
+      margin: 2rem 0;
+    }
+    .feature-item {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .feature-status {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #10b981;
+    }
+    .beta-links {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .beta-link {
+      padding: 1rem;
+      background: rgba(59, 130, 246, 0.1);
+      border: 2px solid rgba(59, 130, 246, 0.2);
+      border-radius: 12px;
+      text-decoration: none;
+      color: #1e40af;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .beta-link:hover {
+      background: rgba(59, 130, 246, 0.2);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="beta-container">
+    <span class="beta-badge">BETA ENVIRONMENT</span>
+    <h1 class="beta-title">BidJoy Staging</h1>
+    <p class="beta-description">
+      Testmiljö för utveckling och kvalitetssäkring. Här testas nya funktioner innan de släpps i produktion.
+    </p>
+    
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-status"></div>
+        <span>SMS Integration Testing</span>
+      </div>
+      <div class="feature-item">
+        <div class="feature-status"></div>
+        <span>Real-time Bidding Simulation</span>
+      </div>
+      <div class="feature-item">
+        <div class="feature-status"></div>
+        <span>Payment Gateway Sandbox</span>
+      </div>
+      <div class="feature-item">
+        <div class="feature-status"></div>
+        <span>Multi-tenant Testing</span>
+      </div>
+    </div>
+    
+    <div class="beta-links">
+      <a href="/admin" class="beta-link">Test Admin Panel</a>
+      <a href="/api/health" class="beta-link">API Health Check</a>
+    </div>
+    
+    <p style="margin-top: 2rem; font-size: 0.875rem; color: #6b7280;">
+      Environment: Staging | Version: ${Date.now()} | Status: Active
+    </p>
+  </div>
+</body>
+</html>
+  `;
+}
+
 // Initialize database tables
 async function initDatabase() {
   try {
@@ -1919,6 +2053,9 @@ app.get('/', (req, res) => {
   if (hostname.includes('app.bidjoy.io')) {
     // Admin login interface for app subdomain
     res.send(getLoginPageHTML());
+  } else if (hostname.includes('beta.bidjoy.io')) {
+    // Beta/staging environment
+    res.send(getBetaEnvironmentHTML());
   } else {
     // Public landing page for main domain
     res.send(getLandingPageHTML());
