@@ -1464,8 +1464,36 @@ function getAdminDashboardHTML(user) {
         <!-- Users Section -->
         <div id="users-section" style="display: none;">
           <div class="bidjoy-card">
-            <h3 style="margin: 0 0 1.5rem 0;">Användarhantering</h3>
-            <p>Administrera registrerade användare och deras behörigheter.</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+              <h3 style="margin: 0;">Användarhantering & Impersonering</h3>
+              <button onclick="refreshUsers()" class="bidjoy-btn bidjoy-btn-secondary">Uppdatera</button>
+            </div>
+            
+            <!-- Impersonation Panel -->
+            ${user.userType === 'superadmin' ? `
+            <div style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: var(--bidjoy-radius); padding: 1.5rem; margin-bottom: 2rem;">
+              <h4 style="margin: 0 0 1rem 0; color: #0369a1;">🎭 Superadmin Impersonering</h4>
+              <div style="display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: end;">
+                <div>
+                  <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Telefonnummer att impersonera</label>
+                  <input type="tel" id="impersonate-phone" placeholder="+46701234567" class="bidjoy-input" style="width: 100%;">
+                  <div style="font-size: 0.875rem; color: var(--bidjoy-text-secondary); margin-top: 0.25rem;">
+                    Ange telefonnummer för att logga in som den användaren
+                  </div>
+                </div>
+                <button onclick="startImpersonation()" class="bidjoy-btn bidjoy-btn-primary">
+                  Impersonera
+                </button>
+              </div>
+            </div>
+            ` : ''}
+            
+            <!-- Users List -->
+            <div id="users-container">
+              <div style="text-align: center; padding: 2rem; color: var(--bidjoy-text-secondary);">
+                Laddar användare...
+              </div>
+            </div>
           </div>
         </div>
         
@@ -2110,6 +2138,129 @@ app.post('/api/cms/content', novaAuth.requireAuth(['superadmin']), async (req, r
   }
 });
 
+// Get all users (superadmin only)
+app.get('/api/admin/users', novaAuth.requireAuth(['superadmin']), async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT phone, user_type, last_login_at, created_at, is_verified 
+      FROM users 
+      ORDER BY created_at DESC
+    `);
+    
+    res.json({
+      success: true,
+      users: result.rows
+    });
+  } catch (error) {
+    console.error('Get users error:', error);
+    res.status(500).json({ error: 'Kunde inte hämta användare' });
+  }
+});
+
+// Impersonation endpoint (superadmin only)
+app.post('/api/admin/impersonate', novaAuth.requireAuth(['superadmin']), async (req, res) => {
+  try {
+    const { targetPhone } = req.body;
+    
+    if (!targetPhone) {
+      return res.status(400).json({ error: 'Telefonnummer krävs' });
+    }
+    
+    // Find target user
+    const targetUser = await pool.query(
+      'SELECT * FROM users WHERE phone = $1',
+      [targetPhone]
+    );
+    
+    if (targetUser.rows.length === 0) {
+      return res.status(404).json({ error: 'Användare inte hittad' });
+    }
+    
+    const user = targetUser.rows[0];
+    
+    // Generate impersonation token
+    const impersonationToken = novaAuth.generateToken({
+      id: user.id,
+      phone: user.phone,
+      userType: user.user_type,
+      subscriptionTier: user.subscription_tier,
+      accountStatus: user.account_status,
+      isImpersonating: true,
+      originalAdminId: req.user.id,
+      originalAdminPhone: req.user.phone
+    });
+    
+    // Log impersonation
+    await pool.query(`
+      INSERT INTO admin_logs (admin_id, action, target_user_id, details, created_at)
+      VALUES ($1, 'impersonation_start', $2, $3, NOW())
+    `, [
+      req.user.id,
+      user.id,
+      JSON.stringify({ targetPhone, adminPhone: req.user.phone })
+    ]);
+    
+    res.json({
+      success: true,
+      token: impersonationToken,
+      message: \`Nu impersonerar du \${targetPhone}\`
+    });
+  } catch (error) {
+    console.error('Impersonation error:', error);
+    res.status(500).json({ error: 'Impersonering misslyckades' });
+  }
+});
+
+// Stop impersonation
+app.post('/api/admin/stop-impersonation', novaAuth.requireAuth(), async (req, res) => {
+  try {
+    if (!req.user.isImpersonating) {
+      return res.status(400).json({ error: 'Inte i impersoneringsläge' });
+    }
+    
+    // Get original admin
+    const adminUser = await pool.query(
+      'SELECT * FROM users WHERE id = $1',
+      [req.user.originalAdminId]
+    );
+    
+    if (adminUser.rows.length === 0) {
+      return res.status(404).json({ error: 'Original admin inte hittad' });
+    }
+    
+    const admin = adminUser.rows[0];
+    
+    // Generate admin token
+    const adminToken = novaAuth.generateToken({
+      id: admin.id,
+      phone: admin.phone,
+      userType: admin.user_type,
+      subscriptionTier: admin.subscription_tier,
+      accountStatus: admin.account_status,
+      isImpersonating: false
+    });
+    
+    // Log impersonation stop
+    await pool.query(\`
+      INSERT INTO admin_logs (admin_id, action, target_user_id, details, created_at)
+      VALUES ($1, 'impersonation_stop', $2, $3, NOW())
+    \`, [
+      req.user.originalAdminId,
+      req.user.id,
+      JSON.stringify({ impersonatedPhone: req.user.phone, adminPhone: admin.phone })
+    ]);
+    
+    res.json({
+      success: true,
+      adminToken,
+      message: 'Impersonering stoppad'
+    });
+  } catch (error) {
+    console.error('Stop impersonation error:', error);
+    res.status(500).json({ error: 'Kunde inte stoppa impersonering' });
+  }
+});
+
 // Get CMS Stats
 app.get('/api/cms/stats', novaAuth.requireAuth(['superadmin']), async (req, res) => {
   try {
@@ -2139,6 +2290,31 @@ app.get('/api/cms/stats', novaAuth.requireAuth(['superadmin']), async (req, res)
   } catch (error) {
     console.error('CMS stats error:', error);
     res.status(500).json({ error: 'Kunde inte hämta statistik' });
+  }
+});
+
+// Export data endpoint
+app.get('/api/admin/export', novaAuth.requireAuth(['superadmin']), async (req, res) => {
+  try {
+    const users = await pool.query('SELECT phone, user_type, created_at, last_login_at FROM users ORDER BY created_at DESC');
+    const leads = await pool.query('SELECT name, email, company, created_at, status FROM leads ORDER BY created_at DESC');
+    
+    let csvContent = 'Type,Phone/Email,Name,Company,Created,Last Login,Status\n';
+    
+    users.rows.forEach(user => {
+      csvContent += \`User,\${user.phone},,, \${user.created_at}, \${user.last_login_at || 'Never'}, \${user.user_type}\n\`;
+    });
+    
+    leads.rows.forEach(lead => {
+      csvContent += \`Lead, \${lead.email}, \${lead.name}, \${lead.company || ''}, \${lead.created_at},, \${lead.status}\n\`;
+    });
+    
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=bidjoy-export.csv');
+    res.send(csvContent);
+  } catch (error) {
+    console.error('Export error:', error);
+    res.status(500).json({ error: 'Export misslyckades' });
   }
 });
 
